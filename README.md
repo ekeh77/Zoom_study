@@ -1,2 +1,3 @@
-# Zoom_study
- study_Zoom code
+# Noom
+
+Zoom Clone using NodeJS WebRTC and Websockets.
