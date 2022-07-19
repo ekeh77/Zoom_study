@@ -58,26 +58,6 @@ async function getMedia(deviceId) {
 function handleMuteClick() {
   myStream
     .getAudioTracks()
-  const cameraConstraints = {
-    audio: true,
-    video: { deviceId: { exact: deviceId } },
-  };
-  try {
-    myStream = await navigator.mediaDevices.getUserMedia(
-      deviceId ? cameraConstraints : initialConstrains
-    );
-    myFace.srcObject = myStream;
-    if (!deviceId) {
-      await getCameras();
-    }
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-function handleMuteClick() {
-  myStream
-    .getAudioTracks()
     .forEach((track) => (track.enabled = !track.enabled));
   if (!muted) {
     muteBtn.innerText = "Unmute";
@@ -103,6 +83,13 @@ function handleCameraClick() {
 
 async function handleCameraChange() {
   await getMedia(camerasSelect.value);
+  if(myPeerConnection){
+    const videoTrack = myStream.getVideoTracks()[0];
+    const videoSender = myPeerConnection
+      .getSenders()
+      .find(sender => sender.track.kind === "video");
+    videoSender.replaceTrack(videoTrack);
+  }
 }
 
 muteBtn.addEventListener("click", handleMuteClick);
