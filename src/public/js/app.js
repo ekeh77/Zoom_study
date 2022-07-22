@@ -1,5 +1,4 @@
 const socket = io();
-
 const myFace = document.getElementById("myFace");
 const muteBtn = document.getElementById("mute");
 const cameraBtn = document.getElementById("camera");
